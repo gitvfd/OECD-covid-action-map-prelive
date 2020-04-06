@@ -1,0 +1,761 @@
+<doctype HTML>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i|Oswald:200,300,400,500,600,700&display=swap&subset=latin-ext" rel="stylesheet">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/site.css">
+
+ <script src="libs/d3.v4.min.js"></script>
+	<script src="libs/d3.v4.jetpack.min.js"></script>
+	<script src="libs/d3-scale-chromatic.v1.min.js"></script>
+	<script src="libs/topojson.v1.min.js"></script>
+	<script src="libs/d3-queue.v3.min.js"></script>
+	<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<!--<script>
+
+	dataLayer = [{
+
+		"siteName": "oecd.github.io/OECD-covid-action-map",
+
+		"siteEnvironment": "live",
+
+		"pageLanguage": "en",         // or "en" or "es"
+
+		"contentLanguage": "English",  // or "English" or "French"
+
+		"pageTopic": "Coronavirus",
+
+		"pageSubTopic": "",
+
+		"pageCountry": "",
+
+		"pageCategory": ""
+
+	}];
+
+</script>-->
+
+
+
+<!-- Google Tag Manager -->
+
+<script>(function (w, d, s, l, i) {
+		w[l] = w[l] || []; w[l].push({
+			'gtm.start':
+
+				new Date().getTime(), event: 'gtm.js'
+		}); var f = d.getElementsByTagName(s)[0],
+
+			j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+
+	})(window, document, 'script', 'dataLayer', 'GTM-P5JSM4P');</script>
+
+ <!--End Google Tag Manager -->
+
+</head>
+
+<body>
+
+	<!-- Google Tag Manager (noscript) -->
+	
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P5JSM4P" height="0" width="0"
+			style="display:none;visibility:hidden"></iframe></noscript>
+	
+	<!--End Google Tag Manager (noscript) -->
+	<Br />
+	<!--<div id="warning">The country policy tracker will be available here <u>on March 30</u><Br/> <span id="warningtext">In the meantime, you can find OECD information on the impacts and consequences of the coronavirus pandemic on our lives and our societies at <a href="https://www.oecd.org/coronavirus">oecd.org/coronavirus</a></span></div>-->
+	<div id="aboutMap"></div>
+	<div id="modedemploi">Mouse and click over the countries   
+				<div id="selCountry">
+					<div class="dropdown_text">Or select one directly: </div>
+					<select id="country_dropdown"
+						onchange="updateCard(value)">
+						<option value="-" selected="selected"> - </option>
+						<option value="Argentina">Argentina</option>
+						<option value="Australia" >Australia</option>
+						<option value="Austria">Austria</option>
+						<option value="Belgium">Belgium</option>
+						<option value="Bulgaria">Bulgaria</option>
+						<option value="Brazil">Brazil</option>
+						<option value="Canada">Canada</option>
+						<option value="Chile">Chile</option>
+						<option value="China">China</option>
+						<option value="Colombia">Colombia</option>
+						<option value="Costa Rica">Costa Rica</option>
+						<option value="Czech Republic">Czech Republic</option>
+						<option value="Denmark">Denmark</option>
+						<option value="Estonia">Estonia</option>
+						<option value="European Union">European Union</option>
+						<option value="Finland">Finland</option>
+						<option value="France">France</option>
+						<option value="Germany">Germany</option>
+						<option value="Greece">Greece</option>
+						<option value="Hungary">Hungary</option>
+						<option value="Indonesia">Indonesia</option>
+						<option value="India">India</option>
+						<option value="Ireland">Ireland</option>
+						<option value="Iceland">Iceland</option>
+						<option value="Israel">Israel</option>
+						<option value="Italy">Italy</option>
+						<option value="Japan">Japan</option>
+						<option value="Korea">Korea</option>
+						<option value="Latvia">Latvia</option>
+						<option value="Lithuania">Lithuania</option>
+						<option value="Luxembourg">Luxembourg</option>
+						<option value="Malaysia">Malaysia</option>
+						<option value="Mexico">Mexico</option>
+						<option value="Netherlands">Netherlands</option>
+						<option value="New Zealand">New Zealand</option>
+						<option value="Norway">Norway</option>
+						<option value="Poland">Poland</option>
+						<option value="Portugal">Portugal</option>
+						<option value="Romania">Romania</option>
+						<option value="Russia">Russia</option>
+						<option value="Saudi Arabia">Saudi Arabia</option>
+						<option value="Slovak Republic">Slovak Republic</option>
+						<option value="Slovenia">Slovenia</option>
+						<option value="South Africa">South Africa</option>
+						<option value="Spain">Spain</option>
+						<option value="Sweden">Sweden</option>
+						<option value="Switzerland">Switzerland</option>
+						<option value="Thailand">Thailand</option>
+						<option value="Turkey">Turkey</option>
+						<option value="Vietnam">Vietnam</option>
+						<option value="United Kingdom">United Kingdom</option>
+						<option value="United States">United States</option>
+					</select>
+				</div>
+	</div>
+	<div id="CountryCard">
+		<div id="shutterholder" >
+			<img id="shutter" src="img/cross.svg">
+			<div id="countrySel"></div>
+			<div id="betaTag">&nbsp;Beta</div>
+			<div id="flex-container_comp">
+				<div id="updateTime"></div>
+				<div id="comp_Country">
+					<div class="comp_dropdown_text">compare to: </div>
+					<select id="comp_country_dropdown" onchange="updateComp(value)">
+									<option value="-" selected="selected"> - </option>
+									<option value="Argentina">Argentina</option>
+									<option value="Australia">Australia</option>
+									<option value="Austria">Austria</option>
+									<option value="Belgium">Belgium</option>
+									<option value="Bulgaria">Bulgaria</option>
+									<option value="Brazil">Brazil</option>
+									<option value="Canada">Canada</option>
+									<option value="Chile">Chile</option>
+									<option value="China">China</option>
+									<option value="Colombia">Colombia</option>
+									<option value="Costa Rica">Costa Rica</option>
+									<option value="Czech Republic">Czech Republic</option>
+									<option value="Denmark">Denmark</option>
+									<option value="Estonia">Estonia</option>
+									<option value="European Union">European Union</option>
+									<option value="Finland">Finland</option>
+									<option value="France">France</option>
+									<option value="Germany">Germany</option>
+									<option value="Greece">Greece</option>
+									<option value="Hungary">Hungary</option>
+									<option value="Indonesia">Indonesia</option>
+									<option value="India">India</option>
+									<option value="Ireland">Ireland</option>
+									<option value="Iceland">Iceland</option>
+									<option value="Israel">Israel</option>
+									<option value="Italy">Italy</option>
+									<option value="Japan">Japan</option>
+									<option value="Korea">Korea</option>
+									<option value="Latvia">Latvia</option>
+									<option value="Lithuania">Lithuania</option>
+									<option value="Luxembourg">Luxembourg</option>
+									<option value="Malaysia">Malaysia</option>
+									<option value="Mexico">Mexico</option>
+									<option value="Netherlands">Netherlands</option>
+									<option value="New Zealand">New Zealand</option>
+									<option value="Norway">Norway</option>
+									<option value="Poland">Poland</option>
+									<option value="Portugal">Portugal</option>
+									<option value="Romania">Romania</option>
+									<option value="Russia">Russia</option>
+									<option value="Saudi Arabia">Saudi Arabia</option>
+									<option value="Slovak Republic">Slovak Republic</option>
+									<option value="Slovenia">Slovenia</option>
+									<option value="South Africa">South Africa</option>
+									<option value="Spain">Spain</option>
+									<option value="Sweden">Sweden</option>
+									<option value="Switzerland">Switzerland</option>
+									<option value="Thailand">Thailand</option>
+									<option value="Turkey">Turkey</option>
+									<option value="Vietnam">Vietnam</option>
+									<option value="United Kingdom">United Kingdom</option>
+									<option value="United States">United States</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<Br />
+		<div id="singleCountry">
+			<div id="containment_Text">
+				<div class="border">
+				<span id="containement_Title" class="SectionTitle"></span>
+				</div>
+				<div id="quarantine_Text" class="SectionText"></div>
+				<div id="travel_Bans_Text" class="SectionText"></div>
+				<div id="schools_closure_Text" class="SectionText"></div>
+				<div id="public_events_cancel_Text" class="SectionText"></div>
+			</div>
+			<Br/>
+			<div id="supportText">
+
+				<div class="border">
+					<span id="support_Title" class="SectionTitle"></span>
+				</div>
+				<div id="Health_Text" class="SectionText"></div>
+				<div id="Overall_fiscal_measures_Text" class="SectionText"></div>
+				<div id="Fiscal_people_Text" class="SectionText"></div>
+				<div id="Fiscal_firm_Text" class="SectionText"></div>
+				<div id="Monetary_Prudential_Text" class="SectionText"></div>
+			</div>
+		</div>
+
+		<div id="countryComparison">
+			<div class="border">
+				<span class="SectionTitle">Containment measures</span>
+			</div>
+			<table>
+				<tr>
+					<th></th>
+					<th id="countrySel2" class="tableTitle">country 1</th>
+					<th id="comp_Country2" class="tableTitle">country 2</th>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Quarantine/Confinement</td>
+					<td id="quarantine_Text2" class="countryCell"></td>
+					<td id="quarantine_Text_comp" class="countryCell"></td>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Travel bans/restrictions</td>
+					<td id="travel_Bans_Text2" class="countryCell"></td>
+					<td id="travel_Bans_Text_comp" class="countryCell"></td>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Closure of schools/universities</td>
+					<td id="schools_closure_Text2" class="countryCell"></td>
+					<td id="schools_closure_Text_comp" class="countryCell"></td>
+				</tr><tr>
+					<td id="" class="labelCell">Cancellation of public events /<Br/> Closure of public places</td>
+					<td id="public_events_cancel_Text2" class="countryCell"></td>
+					<td id="public_events_cancel_Text_comp" class="countryCell"></td>
+				</tr>
+			</table>
+			<Br/>
+			<div class="border">
+				<span class="SectionTitle">Support measures</span>
+			</div>
+			<table>
+				<tr>
+					<th></th>
+					<th id="countrySel2_v2" class="tableTitle">country 1</th>
+					<th id="comp_Country2_v2" class="tableTitle">country 2</th>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Health</td>
+					<td id="Health_Text2" class="countryCell"></td>
+					<td id="Health_Text_comp" class="countryCell"></td>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Fiscal measures - overall</td>
+					<td id="Overall_fiscal_measures_Text2" class="countryCell"></td>
+					<td id="Overall_fiscal_measures_Text_comp" class="countryCell"></td>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Fiscal measures - people specific</td>
+					<td id="Fiscal_people_Text2" class="countryCell"></td>
+					<td id="Fiscal_people_Text_comp" class="countryCell"></td>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Fiscal measures - company specific</td>
+					<td id="Fiscal_firm_Text2" class="countryCell"></td>
+					<td id="Fiscal_firm_Text_comp" class="countryCell"></td>
+				</tr>
+				<tr>
+					<td id="" class="labelCell">Monetary policy / Macro-prudential regulation</td>
+					<td id="Monetary_Prudential_Text2" class="countryCell"></td>
+					<td id="Monetary_Prudential_Text_comp" class="countryCell"></td>
+				</tr>
+			</table>
+		<Br/>	
+	</div>
+	</div>
+
+	<div id="trackersLink">
+		<div id="shutterholdertracker">
+		<img id="shuttertracker" src="img/cross.svg">
+
+		<div id="trackersText"><b>Find more policies on this thematic trackers:</b><Br />
+			<ul>
+				<li>For any <b>tax</b> related policy and measure : <a
+				href="http://www.oecd.org/tax/covid-19-tax-policy-and-other-measures.xlsm" target="_blank">Tax policy
+				responses</a></li>
+			<li>For any <b>health</b> related policy and measure : <a
+				href="http://www.oecd.org/social/Covid-19-Employment-and-Social-Policy-Responses-by-Country.xlsx"
+				target="_blank">Employment and Social Policy Responses by Country</a></li></ul>
+		</div>
+		</div>
+	</div>
+
+<div class="flex-container">
+	<div id="trackersNotes">
+		<div id="updateTag">Beta version - Updated every day</div>
+		<a id="source" href="https://oecd.github.io/OECD-covid-action-map/data/CoronavirusUpdate_AllCountries_Public.xlsx" target="_blank">Download the data</a>
+		<div id="copyright">© 2020 Organisation for Economic Co-operation and Development</div>
+	</div>
+
+	<div id="morebtn">
+	<div class="toTrackers" id="toTrackersBtn">More</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+
+
+	var popupWidth;
+	var heightChart ;
+	var margin_chart
+	var xScale;
+	var yScale ;
+
+	var allData;
+
+  	
+ 	var countryData=[];
+
+  	d3.tsv("data/coord_country.tsv", function(error, coudata){
+   	 	coudata.forEach(function(d){
+        	countryData.push(d);
+  		})
+   	})
+
+	var urls = {
+	    world: "data/world.json",
+	    country:"data/coord_country.tsv",
+		actions:"data/actions.tsv"
+	};
+
+	var divMap = d3.select("body").append("div") 
+	    .attr("class", "tooltip")       
+	    .style("opacity", 0);
+
+    var format = d3.format(",.1f");
+    var margin = 20,centered;
+
+	var mapRatio=0.475;
+    
+    var width = document.getElementById("aboutMap").offsetWidth,
+    	height= width*mapRatio;
+
+
+  	var projection = d3.geoRobinson()
+	    		.scale(width/6.3)
+	    		.translate([width / 2, 6*height / 10])
+  	        	.precision(.01);
+
+  	var path = d3.geoPath()
+                     .projection(projection);
+
+  	var svg = d3.select("#aboutMap").append("svg")
+  	    .attr("width", width)
+  	    .attr("height", height)
+ 
+    var worldMap=svg.append("g")
+
+	var voronoiLayer = svg.append("g");
+
+	var voronoi = d3.voronoi()
+			.x(function (d) { return projection([d.lng, d.lat])[0]; })
+			.y(function (d) { return projection([d.lng, d.lat])[1]; })
+		.extent([[-1, -1], [width + 1, height + 1]]);
+	
+	var polygons;
+	var polygonData;
+
+	d3.queue()
+	    .defer(d3.json, urls.world)
+	    .defer(d3.tsv, urls.country)
+		.defer(d3.tsv, urls.actions)
+	    .await(render);
+
+
+
+	function render(err,world,country, actions){
+		allData=actions;
+		//compChart(actions)
+		//Container for the gradients //https://www.visualcinnamon.com/2016/06/glow-filter-d3-visualization.html
+		var defs = worldMap.append("defs");
+
+		//Filter for the outside glow
+		var filter = defs.append("filter")
+		    .attr("id","glow");
+		filter.append("feGaussianBlur")
+		    .attr("stdDeviation","1.75")
+		    .attr("result","coloredBlur");
+		var feMerge = filter.append("feMerge");
+		feMerge.append("feMergeNode")
+		    .attr("in","coloredBlur");
+		feMerge.append("feMergeNode")
+		    .attr("in","SourceGraphic");
+
+	    worldMap
+	    	.attr("id","world")
+	    	.selectAll("path")
+	        .data(world.features)
+	      	.enter().append("path")
+	        .attr("class","world")
+					.attr('fill', "#c0c7c9")
+				.attr('stroke', "#c0c7c9")
+			.attr("d", path)
+			
+		worldMap
+	    	.selectAll(".couCircle")
+	        .data(actions)
+	      	.enter().append("circle").attr("class","couCircle")
+	      	.attr("id",function(d){return d.ISO3+"circle";})
+	      	.attr("cx",function(d){
+					return projection([d.lng, d.lat])[0];
+	      	})
+	      	.attr("cy",function(d){
+		        	return projection([d.lng,d.lat])[1];
+	      	})
+	      	.attr("r", function (d) {
+				if (d.ISO3 == "EU" || d.ISO3 == "SEA")
+					return width / 220;
+				else
+					return width / 300;
+			})
+	      	.attr("fill",function(d){
+				  if(d.ISO3=="EU"|| d.ISO3 == "SEA")
+				 	 return "#000875";
+				  else
+				  	return "#04629a";
+			  })
+	  		
+
+
+
+		polygonData=actions;
+		polygons = voronoi(polygonData).polygons();
+
+		voronoiLayer.selectAll(".cell")
+			.data(polygons)
+			.enter()
+			.append("path")
+			.attr("class", "cell")
+			.attr("fill", "none")
+			.style("pointer-events", "all")
+			.attr("stroke", "none")
+			.attr("d", function (d) { return "M" + d.join("L") + "Z"; })
+			.on('mouseover', function (d) {
+
+				var element = d3.select("#" + d.data.ISO3+"circle")
+				
+
+				divMap.transition()
+					.duration(250)
+					.style("opacity", 1);
+
+				var icuText;
+				if (d.data.available_ICU=="")
+					icuText=""
+				else
+					icuText= "</b><Br/><i>Intensive care unit Spots available</i>: <b>" + d.data.available_ICU + "</b>"
+				
+				var htmlText = "<b>" + d.data.Country + "</b>"/**+ "<Br/><i>Confirmed cases</i>: <b>"+ d.data.Confirmed_cases +"</b><Br/><i>Confirmed deaths</i>: <b>"+ d.data.Confirmed_deaths   icuText+ **/;
+				
+				divMap.html(htmlText)
+					.style("left", element.attr('cx') + "px")
+					.style("top", element.attr('cy') + "px");
+			})
+			.on('mouseout', function (d) {
+
+				divMap.transition()
+					.duration(250)
+					.style("opacity", 0);
+			})
+			.on('click',function(d){
+				updateCard(d.data.Country)
+			});
+			
+	};
+      
+
+
+	d3.select(window).on('resize', resize);
+
+	function resize() {
+	    // adjust things when the window size changes
+	    width = document.getElementById("aboutMap").offsetWidth,
+	    height = width * mapRatio;
+
+	    // update projection
+	    projection
+	        .translate([width / 2, height / 2])
+	        .scale(width/6.3);
+
+	
+
+
+	    // resize the map container
+	    svg.attr('width', width + 'px')
+	        .attr('height', height + 'px');
+
+	    // resize the map
+	    worldMap.selectAll('.world').attr('d', path);
+	    //world.selectAll('.state').attr('d', path);
+	    
+
+	    worldMap.selectAll('circle')
+			.attr("cx", function (d) {
+				return projection([d.lng, d.lat])[0];
+			})
+			.attr("cy", function (d) {
+				return projection([d.lng, d.lat])[1];
+			})
+	      	.attr("r",width/300);
+
+		
+		voronoi
+			.extent([[-1, -1], [width + 1, height + 1]]);
+
+
+		
+		polygons = voronoi(polygonData.filter(function (d) { return d.isOnMap != ""; })).polygons();
+
+
+
+		voronoiLayer.selectAll(".cell")
+			.data(polygons)
+			.attr("fill", "none")
+			.style("pointer-events", "all")
+			.attr("stroke", "none")
+			.attr("d", function (d) { return "M" + d.join("L") + "Z"; })
+
+
+	}
+	
+
+		function updateCard(couName){
+
+			var temp= allData.filter(function (d) { return d.Country == couName })
+
+			document.getElementById("CountryCard").style.display = 'block';
+			document.getElementById("modedemploi").style.display = 'none';
+
+			document.getElementById("countrySel").innerHTML = temp[0].Country;
+			document.getElementById("countrySel2").innerHTML = temp[0].Country;
+			document.getElementById("countrySel2_v2").innerHTML = temp[0].Country;
+
+			document.getElementById("updateTime").innerHTML = "Updated on " + temp[0].update;
+
+			if (temp[0].quarantines == "" && temp[0].travel_Bans == "" && temp[0].schools_closure == "" && temp[0].public_events_cancel == "")
+				document.getElementById("containement_Title").innerHTML = "Containment measures"
+			else
+				document.getElementById("containement_Title").innerHTML = "Containment measures"
+
+			if (temp[0].quarantines == "")
+				document.getElementById("quarantine_Text").innerHTML = "<b>Quarantine/Confinement</b><Br/>"
+			else{
+				document.getElementById("quarantine_Text").innerHTML = "<b>Quarantine/Confinement</b><Br/>" + temp[0].quarantines
+				document.getElementById("quarantine_Text2").innerHTML = temp[0].quarantines
+			}
+
+			if (temp[0].travel_Bans == "")
+				document.getElementById("travel_Bans_Text").innerHTML = "<b>Travel bans/restrictions</b><Br/>"
+			else{
+				document.getElementById("travel_Bans_Text").innerHTML = "<b>Travel bans/restrictions</b><Br/>" + temp[0].travel_Bans
+				document.getElementById("travel_Bans_Text2").innerHTML = temp[0].travel_Bans
+
+			}
+				
+			if (temp[0].schools_closure == "")
+				document.getElementById("schools_closure_Text").innerHTML = "<b>Closure of schools/universities</b><Br/>"
+			else{
+				document.getElementById("schools_closure_Text").innerHTML = "<b>Closure of schools/universities</b><Br/>" + temp[0].schools_closure
+				document.getElementById("schools_closure_Text2").innerHTML =  temp[0].schools_closure
+
+			}
+				
+			if (temp[0].public_events_cancel == "")
+				document.getElementById("public_events_cancel_Text").innerHTML = "<b>Cancellation of public events / Closure of public places</b><Br/>"
+			else{
+				document.getElementById("public_events_cancel_Text").innerHTML = "<b>Cancellation of public events / Closure of public places</b><Br/>" + temp[0].public_events_cancel
+				document.getElementById("public_events_cancel_Text2").innerHTML = temp[0].public_events_cancel
+
+			}
+
+
+			if (temp[0].Health == "" && temp[0].Overall_fiscal_measures == "" && temp[0].Fiscal_people == "" && temp[0].Fiscal_firm == "" && temp[0].Monetary_Prudential == "")
+				document.getElementById("support_Title").innerHTML = "Support measures"
+			else
+				document.getElementById("support_Title").innerHTML = "Support measures"
+
+			if (temp[0].Health == "")
+				document.getElementById("Health_Text").innerHTML = "<b>Health</b><Br/><i>Information not available</i>"
+			else{
+				document.getElementById("Health_Text").innerHTML = "<b>Health</b><Br/>" + temp[0].Health
+				document.getElementById("Health_Text2").innerHTML = temp[0].Health
+
+			}
+				
+			if (temp[0].Overall_fiscal_measures == "")
+				document.getElementById("Overall_fiscal_measures_Text").innerHTML = "<b>Fiscal measures - overall</b><Br/>"
+			else{
+				document.getElementById("Overall_fiscal_measures_Text").innerHTML = "<b>Fiscal measures - overall</b><Br/>" + temp[0].Overall_fiscal_measures
+				document.getElementById("Overall_fiscal_measures_Text2").innerHTML = temp[0].Overall_fiscal_measures
+
+			}
+				
+			if (temp[0].Fiscal_people == "")
+				document.getElementById("Fiscal_people_Text").innerHTML = "<b>Fiscal measures - people specific</b><Br/>"
+			else{
+				document.getElementById("Fiscal_people_Text").innerHTML = "<b>Fiscal measures - people specific</b><Br/>" + temp[0].Fiscal_people
+				document.getElementById("Fiscal_people_Text2").innerHTML = temp[0].Fiscal_people
+			}
+				
+			if (temp[0].Fiscal_firm == "")
+				document.getElementById("Fiscal_firm_Text").innerHTML = "<b>Fiscal measures - company specific</b><Br/>"
+			else{
+				document.getElementById("Fiscal_firm_Text").innerHTML = "<b>Fiscal measures - company specific</b><Br/>" + temp[0].Fiscal_firm
+				document.getElementById("Fiscal_firm_Text2").innerHTML = temp[0].Fiscal_firm
+
+			}
+				
+			if (temp[0].Monetary_Prudential == "")
+				document.getElementById("Monetary_Prudential_Text").innerHTML = "<b>Monetary policy / Macro-prudential regulation</b><Br/>"
+			else{
+				document.getElementById("Monetary_Prudential_Text").innerHTML = "<b>Monetary policy / Macro-prudential regulation</b><Br/>" + temp[0].Monetary_Prudential
+				document.getElementById("Monetary_Prudential_Text2").innerHTML = temp[0].Monetary_Prudential
+
+			}
+				
+		}
+
+
+	function updateComp(couName) {
+
+		var temp = allData.filter(function (d) { return d.Country == couName })
+		if(couName!="-"){
+			document.getElementById("singleCountry").style.display = 'none';
+			document.getElementById("countryComparison").style.display = 'block';
+		}
+		else{
+			document.getElementById("singleCountry").style.display = 'block';
+			document.getElementById("countryComparison").style.display = 'none';
+
+		}
+
+		document.getElementById("comp_Country2").innerHTML = temp[0].Country;
+		document.getElementById("comp_Country2_v2").innerHTML = temp[0].Country;
+		
+		
+		if (temp[0].quarantines == "")
+			document.getElementById("quarantine_Text_comp").innerHTML = "<b>Quarantine/Confinement</b><Br/>"
+		else
+			document.getElementById("quarantine_Text_comp").innerHTML = temp[0].quarantines
+
+		if (temp[0].travel_Bans == "")
+			document.getElementById("travel_Bans_Text_comp").innerHTML = "<b>Travel bans/restrictions</b><Br/>"
+		else
+			document.getElementById("travel_Bans_Text_comp").innerHTML = temp[0].travel_Bans
+
+		if (temp[0].schools_closure == "")
+			document.getElementById("schools_closure_Text_comp").innerHTML = "<b>Closure of schools/universities</b><Br/>"
+		else
+			document.getElementById("schools_closure_Text_comp").innerHTML = temp[0].schools_closure
+
+		if (temp[0].public_events_cancel == "")
+			document.getElementById("public_events_cancel_Text_comp").innerHTML = "<b>Cancellation of public events / Closure of public places</b><Br/>"
+		else
+			document.getElementById("public_events_cancel_Text_comp").innerHTML = temp[0].public_events_cancel
+
+
+		if (temp[0].Health == "")
+			document.getElementById("Health_Text_comp").innerHTML = "<b>Health</b><Br/><i>Information not available</i>"
+		else
+			document.getElementById("Health_Text_comp").innerHTML = temp[0].Health
+
+		if (temp[0].Overall_fiscal_measures == "")
+			document.getElementById("Overall_fiscal_measures_Text_comp").innerHTML = "<b>Fiscal measures - overall</b><Br/>"
+
+		else
+			document.getElementById("Overall_fiscal_measures_Text_comp").innerHTML = temp[0].Overall_fiscal_measures
+
+		if (temp[0].Fiscal_people == "")
+			document.getElementById("Fiscal_people_Text_comp").innerHTML = "<b>Fiscal measures - people specific</b><Br/>"
+
+		else
+			document.getElementById("Fiscal_people_Text_comp").innerHTML = temp[0].Fiscal_people
+
+		if (temp[0].Fiscal_firm == "")
+			document.getElementById("Fiscal_firm_Text_comp").innerHTML = "<b>Fiscal measures - company specific</b><Br/>"
+		else
+			document.getElementById("Fiscal_firm_Text_comp").innerHTML = temp[0].Fiscal_firm
+
+		if (temp[0].Monetary_Prudential == "")
+			document.getElementById("Monetary_Prudential_Text_comp").innerHTML = "<b>Monetary policy / Macro-prudential regulation</b><Br/>"
+
+		else
+			document.getElementById("Monetary_Prudential_Text_comp").innerHTML = temp[0].Monetary_Prudential
+
+	}
+		
+
+
+	d3.select("#shutter")
+	.on("mouseover",function(){
+		d3.select(this).style("opacity",0.5);
+	})
+	.on("mouseout", function () {
+			d3.select(this).style("opacity", 1);
+	})
+	.on("click",function(){
+		document.getElementById("CountryCard").style.display = 'none';
+
+		document.getElementById("country_dropdown").value = '-';
+		document.getElementById("modedemploi").style.display = 'block';
+		//d3.select("#CountryCard").transition(1000).style("display","none")
+	})
+
+
+	d3.select("#shuttertracker")
+		.on("mouseover", function () {
+			d3.select(this).style("opacity", 0.5);
+		})
+		.on("mouseout", function () {
+			d3.select(this).style("opacity", 1);
+		})
+		.on("click", function () {
+
+			document.getElementById("trackersLink").style.display = 'none';
+		})
+    
+		d3.select("#toTrackersBtn")
+				.on("click", function () {
+					document.getElementById("trackersLink").style.display = 'block';
+				})
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51983915-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
