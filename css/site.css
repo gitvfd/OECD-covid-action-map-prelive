@@ -206,6 +206,17 @@ div.tooltip::after {
   text-align: left;
 }
 
+#morebtn{
+    text-align: right;
+    vertical-align: sub;
+    font-family: 'Oswald', sans-serif;
+    font-style: normal;
+    font-size: 1.75rem;
+    font-weight:600;
+    line-height: 1;
+    color: #04629a;
+}
+
 .toTrackers{
     float:right;
     margin-right:7.5%;
