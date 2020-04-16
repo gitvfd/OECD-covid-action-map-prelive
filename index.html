@@ -13,7 +13,7 @@
 	<script src="libs/d3-queue.v3.min.js"></script>
 	<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
-<!--<script>
+<script>
 
 	dataLayer = [{
 
@@ -35,7 +35,7 @@
 
 	}];
 
-</script>-->
+</script>
 
 
 
@@ -75,58 +75,6 @@
 					<select id="country_dropdown"
 						onchange="updateCard(value)">
 						<option value="-" selected="selected"> - </option>
-						<option value="Argentina">Argentina</option>
-						<option value="Australia" >Australia</option>
-						<option value="Austria">Austria</option>
-						<option value="Belgium">Belgium</option>
-						<option value="Bulgaria">Bulgaria</option>
-						<option value="Brazil">Brazil</option>
-						<option value="Canada">Canada</option>
-						<option value="Chile">Chile</option>
-						<option value="China">China</option>
-						<option value="Colombia">Colombia</option>
-						<option value="Costa Rica">Costa Rica</option>
-						<option value="Czech Republic">Czech Republic</option>
-						<option value="Denmark">Denmark</option>
-						<option value="Estonia">Estonia</option>
-						<option value="European Union">European Union</option>
-						<option value="Finland">Finland</option>
-						<option value="France">France</option>
-						<option value="Germany">Germany</option>
-						<option value="Greece">Greece</option>
-						<option value="Hungary">Hungary</option>
-						<option value="Indonesia">Indonesia</option>
-						<option value="India">India</option>
-						<option value="Ireland">Ireland</option>
-						<option value="Iceland">Iceland</option>
-						<option value="Israel">Israel</option>
-						<option value="Italy">Italy</option>
-						<option value="Japan">Japan</option>
-						<option value="Korea">Korea</option>
-						<option value="Latvia">Latvia</option>
-						<option value="Lithuania">Lithuania</option>
-						<option value="Luxembourg">Luxembourg</option>
-						<option value="Malaysia">Malaysia</option>
-						<option value="Mexico">Mexico</option>
-						<option value="Netherlands">Netherlands</option>
-						<option value="New Zealand">New Zealand</option>
-						<option value="Norway">Norway</option>
-						<option value="Poland">Poland</option>
-						<option value="Portugal">Portugal</option>
-						<option value="Romania">Romania</option>
-						<option value="Russia">Russia</option>
-						<option value="Saudi Arabia">Saudi Arabia</option>
-						<option value="Slovak Republic">Slovak Republic</option>
-						<option value="Slovenia">Slovenia</option>
-						<option value="South Africa">South Africa</option>
-						<option value="Spain">Spain</option>
-						<option value="Sweden">Sweden</option>
-						<option value="Switzerland">Switzerland</option>
-						<option value="Thailand">Thailand</option>
-						<option value="Turkey">Turkey</option>
-						<option value="Vietnam">Vietnam</option>
-						<option value="United Kingdom">United Kingdom</option>
-						<option value="United States">United States</option>
 					</select>
 				</div>
 	</div>
@@ -141,57 +89,6 @@
 					<div class="comp_dropdown_text">compare to: </div>
 					<select id="comp_country_dropdown" onchange="updateComp(value)">
 									<option value="-" selected="selected"> Reset </option>
-									<option value="Argentina">Argentina</option>
-									<option value="Australia">Australia</option>
-									<option value="Austria">Austria</option>
-									<option value="Belgium">Belgium</option>
-									<option value="Bulgaria">Bulgaria</option>
-									<option value="Brazil">Brazil</option>
-									<option value="Canada">Canada</option>
-									<option value="Chile">Chile</option>
-									<option value="China">China</option>
-									<option value="Colombia">Colombia</option>
-									<option value="Costa Rica">Costa Rica</option>
-									<option value="Czech Republic">Czech Republic</option>
-									<option value="Denmark">Denmark</option>
-									<option value="Estonia">Estonia</option>
-									<option value="Finland">Finland</option>
-									<option value="France">France</option>
-									<option value="Germany">Germany</option>
-									<option value="Greece">Greece</option>
-									<option value="Hungary">Hungary</option>
-									<option value="Indonesia">Indonesia</option>
-									<option value="India">India</option>
-									<option value="Ireland">Ireland</option>
-									<option value="Iceland">Iceland</option>
-									<option value="Israel">Israel</option>
-									<option value="Italy">Italy</option>
-									<option value="Japan">Japan</option>
-									<option value="Korea">Korea</option>
-									<option value="Latvia">Latvia</option>
-									<option value="Lithuania">Lithuania</option>
-									<option value="Luxembourg">Luxembourg</option>
-									<option value="Malaysia">Malaysia</option>
-									<option value="Mexico">Mexico</option>
-									<option value="Netherlands">Netherlands</option>
-									<option value="New Zealand">New Zealand</option>
-									<option value="Norway">Norway</option>
-									<option value="Poland">Poland</option>
-									<option value="Portugal">Portugal</option>
-									<option value="Romania">Romania</option>
-									<option value="Russia">Russia</option>
-									<option value="Saudi Arabia">Saudi Arabia</option>
-									<option value="Slovak Republic">Slovak Republic</option>
-									<option value="Slovenia">Slovenia</option>
-									<option value="South Africa">South Africa</option>
-									<option value="Spain">Spain</option>
-									<option value="Sweden">Sweden</option>
-									<option value="Switzerland">Switzerland</option>
-									<option value="Thailand">Thailand</option>
-									<option value="Turkey">Turkey</option>
-									<option value="Vietnam">Vietnam</option>
-									<option value="United Kingdom">United Kingdom</option>
-									<option value="United States">United States</option>
 					</select>
 				</div>
 			</div>
@@ -289,6 +186,9 @@
 			</table>
 		<Br/>	
 	</div>
+	<Br />
+	<div id="noteCountry"></div>
+	<Br />
 	</div>
 
 	<div id="trackersLink">
@@ -301,8 +201,8 @@
 					<a href="http://www.oecd.org/tax/covid-19-tax-policy-and-other-measures.xlsm" target="_blank">Tax policy responses by country</a></li>
 				<li><a href="http://www.oecd.org/social/Covid-19-Employment-and-Social-Policy-Responses-by-Country.xlsx"
 				target="_blank">Employment and social policy responses by country</a></li>
-			<li><a href="https://oecd.github.io/OECD-covid-action-map/data/STI-Covid19_policy-responses.xlsx"
-					target="_blank">Science and innovation policy responses by country</a></li>			
+				<li><a href="http://www.oecd.org/health/COVID19-OECD-Health-System-Response-Tracker.xlsx" target="_blank">Health policy responses by country</a></li>
+			<li><a href="https://stip.oecd.org/Covid.html" target="_blank">Science and innovation policy responses by country</a></li>			
 			</ul>
 		</div>
 		</div>
@@ -313,12 +213,17 @@
 		<div id="updateTag">Beta version - Updated every day</div>
 		<a id="source" href="https://oecd.github.io/OECD-covid-action-map/data/CoronavirusUpdate_AllCountries_Public.xlsx" target="_blank">Download the data</a>
 		<div id="copyright">© 2020 Organisation for Economic Co-operation and Development</div>
+
 	</div>
 
 	<div id="morebtn">
 		Click to find out more country policy responses: &nbsp;&nbsp;&nbsp;
 	<div class="toTrackers" id="toTrackersBtn">More</div>
 	</div>
+</div>
+<div id="disclaimer">This document, as well as any data and map included herein, are without prejudice to the status of
+			or sovereignty over any territory, to the delimitation of international frontiers and boundaries and to the name of any territory, city
+			or area.
 </div>
 </body>
 <script type="text/javascript">
@@ -354,7 +259,7 @@
     var format = d3.format(",.1f");
     var margin = 20,centered;
 
-	var mapRatio=0.475;
+	var mapRatio=0.45;
     
     var width = document.getElementById("aboutMap").offsetWidth,
     	height= width*mapRatio;
@@ -390,9 +295,38 @@
 		.defer(d3.tsv, urls.actions)
 	    .await(render);
 
+function setDropdown(data){
+	data.forEach(function(d){
+		var x = document.getElementById("country_dropdown");
+		var comp_x = document.getElementById("comp_country_dropdown");
 
+		var option = document.createElement("option");
+		option.value = d.key;
+		option.innerHTML = d.key;
+
+		x.appendChild(option);
+
+		var comp_option = document.createElement("option");
+		comp_option.value = d.key;
+		comp_option.innerHTML = d.key;
+		
+
+		if (d.key != "European Union")
+			comp_x.appendChild(comp_option);
+
+
+	
+	})
+}
 
 	function render(err,world,country, actions){
+
+		var countryList=  d3.nest()
+			.key(function (d) { return d.Country; }).sortKeys(d3.ascending)
+			.entries(actions);
+ 
+		setDropdown(countryList);
+
 		allData=actions;
 		//compChart(actions)
 		//Container for the gradients //https://www.visualcinnamon.com/2016/06/glow-filter-d3-visualization.html
@@ -641,7 +575,14 @@
 				document.getElementById("Monetary_Prudential_Text2").innerHTML = temp[0].Monetary_Prudential
 
 			}
-				
+			
+			if (couName == "Kosovo**")
+				document.getElementById("noteCountry").innerHTML = "<b>Note on Kosovo</b>: This designation is without prejudice to positions on status, and is in line with United Nations Security Council Resolution 1244/99 and the Advisory Opinion of the International Court of Justice on Kosovo's declaration of independence."
+			else if (couName == "Israel*")
+				document.getElementById("noteCountry").innerHTML = "<b>Note on Israel</b>: The statistical data for Israel are supplied by and under the responsibility of the relevant Israeli authorities. The use of such data by the OECD is without prejudice to the status of the Golan Heights, East Jerusalem and Israeli settlements in the West Bank under the terms of international law."
+			else
+				document.getElementById("noteCountry").innerHTML = ""
+
 		}
 
 
@@ -710,6 +651,13 @@
 
 		else
 			document.getElementById("Monetary_Prudential_Text_comp").innerHTML = temp[0].Monetary_Prudential
+		
+
+		if (couName == "Kosovo")
+			document.getElementById("noteCountry").innerHTML = "<b>Note on Kosovo</b>: This designation is without prejudice to positions on status, and is in line with United Nations Security Council Resolution 1244/99 and the Advisory Opinion of the International Court of Justice on Kosovo's declaration of independence."
+		else
+			document.getElementById("noteCountry").innerHTML = ""
+
 
 	}
 		
